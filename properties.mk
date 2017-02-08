@@ -1,3 +1,3 @@
-DEVICE = fenix3
-SDK_HOME = /Users/dsiwiec/connectiq-sdk-mac-2.1.3
+DEVICE = vivoactive_hr
+SDK_HOME = /home/code/sdk
 DEPLOY = /Volumes/GARMIN/GARMIN/APPS/

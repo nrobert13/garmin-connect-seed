@@ -1,10 +1,10 @@
-include properties.mk
+include /home/code/build/properties.mk
 
 sources = `find source -name '*.mc'`
 resources = `find resources -name '*.xml' | tr '\n' ':' | sed 's/.$$//'`
 device_resources = `find resources-$(DEVICE) -name '*.xml' | tr '\n' ':' | sed 's/.$$//'`
 appName = `grep entry manifest.xml | sed 's/.*entry="\([^"]*\).*/\1/'`
-PRIVATE_KEY = /Users/dsiwiec/.ssh/id_rsa_garmin.der
+PRIVATE_KEY = /home/code/devkey/developer_key.der
 
 build:
 	$(SDK_HOME)/bin/monkeyc --warn --output bin/$(appName).prg -m manifest.xml \
@@ -13,8 +13,8 @@ build:
 	-p $(SDK_HOME)/bin/projectInfo.xml -d $(DEVICE) $(sources)
 
 run: build
-	$(SDK_HOME)/bin/connectIQ &&\
-	sleep 3 &&\
+	$(SDK_HOME)/bin/monkeysim &
+	while ! netstat -ntlp | egrep "123[4-8]" ; do sleep 1 ; done
 	$(SDK_HOME)/bin/monkeydo bin/$(appName).prg $(DEVICE)
 
 deploy: build
